@@ -20,7 +20,7 @@ export class AppList extends Component {
     showItemList = () => {
         return (
             <ul>
-                {this.state.list.map(({ item, id }) => (
+                {this.state.list.map(({ id, item }) => (
                     <li key={id}>{item}</li>
                 ))}
             </ul>
@@ -33,18 +33,18 @@ export class AppList extends Component {
                 <p>We're going to MAP data</p>
                 <ul>
                     {this.state.list.map((element) => {
-                        return <li key={element.item}></li>
+                        return <li key={element.id}>{element.item}</li>
                     }
                     )}
                     <br />
                     {/* with destructing */}
-                    {this.state.list.map(({ item, id }) => {
+                    {this.state.list.map(({ id, item }) => {
                         return <li key={id}>{item}</li>
                     }
                     )}
                     <br />
                     {/* implicit return */}
-                    {this.state.list.map(({ item, id }) => (
+                    {this.state.list.map(({ id, item }) => (
                         <li key={id}>{item}</li>
                     ))}
                     <br />
