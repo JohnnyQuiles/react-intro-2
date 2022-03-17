@@ -19,13 +19,13 @@ export class AppInput extends Component {
       firstName: event.target.value
     });
   };
-  handleSubmit = (event) => {
-    event.preventDefault();
-  };
   handleLastName = (event) => {
     this.setState({
       lastName: event.target.value
     })
+  };
+  handleSubmit = (event) => {
+    event.preventDefault();
   };
   handleOnClick = (event) => {
     // console.log(this.state.lastName);
