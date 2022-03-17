@@ -16,7 +16,9 @@ export class App extends Component {
             id: uuidv4(),
             todo: "do laundry"
         }
-        ]
+        ],
+        newTodo: "",
+        error:"",
     };
     handleInputChange = (event) => {
         this.setState({
@@ -26,9 +28,9 @@ export class App extends Component {
     showTodo = () => {
         return (
             <ul>
-                {this.state.todoArr.map(({ todo, id }) => (
+                {this.state.todoArr.map(({ id, todo }) => (
                     <li key={id}>{todo}</li>
-                ))}
+                ))};
             </ul>
         )
     };
@@ -40,35 +42,33 @@ export class App extends Component {
                 element.todo.toLowerCase() === event.target.newTodo.value.toLowerCase()
             );
         });
+        const isNotEmpty = e.target.newTodo.value.trim();
 
-        const isNotEmpty = event.target.newTodo.value.trim();
-
-        if (isNotEmpty) {
-            if (isDuplicate) {
-                this.setState({
-                    newTodo: "",
-                    errorMessage: "No duplicate!",
-                });
-            } else {
-                let newArray = [
-                    ...this.state.todoArr,
-                    { id: uuidv4(), todo: this.state.newTodo },
-                ];
-
-                this.setState({
-                    todoArr: newArray,
-                    newTodo: "",
-                    errorMessage: "",
-                });
-            }
-        } else {
-            console.log("handleOnSubmit Error:");
+        if(!isNotEmpty) {
             this.setState({
-                newTodo: "",
-                errorMessage: "Cannot submit an empty field",
-            });
+                error: "Can not add an empty todo!"
+            })
         }
-    };
+        else {
+            if(isDuplicate) {
+                this.setState({
+                    error: "Can not add a duplicate todo!",
+                    newTodo: ""
+                })
+            }
+            else {
+                let newArr = [
+                    ...this.state.todoArr,
+                    { id: uuidv4(), todo: this.state.newTodo }
+                ]
+                this.setState({
+                    todoArr: newArr,
+                    newTodo: "",
+                    error: ""
+                })
+            }
+        }
+    }
 
     render() {
         const { newTodo } = this.state;
@@ -76,9 +76,9 @@ export class App extends Component {
             <div className="App">
                 <form onSubmit={this.handleSubmit}>
                     <label>Add Todo:</label>
-                    <input placeholder='newTodo' value={newTodo} onChange={this.handleInputChange}></input>
+                    <input placeholder='Enter todo here' name='newTodo' value={newTodo} onChange={this.handleInputChange}></input>
                     <button>Submit</button>
-                    <p style={{ color: "red" }}>(this.state.errorMessage)</p>
+                    <p style={{ color: "red" }}>{this.state.error}</p>
                 </form>
                 {this.showTodo()}
             </div>
